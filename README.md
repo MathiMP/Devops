@@ -30,3 +30,55 @@ When the workflow runs depends on trigger
   - `repository_dispatch`
   - `workflow_call`
 - [Few Most used Triggers Explained In Details](.github/workflows/triggers_in_detail.yml)
+- To trigger from cli: `gh workflow run workflowfilename.yml`
+
+
+# Jobs
+- You can have more than one job in a workflow
+- Jobs run parallely by default in github action
+- Jobs id: string value. unique identifier of job.
+- Jobs Name: string value. Name of job displayed on github UI
+- Jobs run in a runner environment specified by `runs-on`
+- Jobs can be made to run series by using `needs`
+- You can have more than one needs using array.
+- Conditional expressions can be used to decide if the steps are to be executed. Example: 'if: ${{ cancelled() }}'
+- `runs-on` : single string, array of strings, variable for strings or array of strings,
+- `runs-on: ubuntu-latest` : runs the ubuntu-latest
+- `runs-on: [ubuntu-22, ubuntu-24]`: will run on image available on the array.
+- The type of machine to run the job on .
+- Machine can be VM or containers : github-hosted runner, Larger runner, self-hosted runner
+- `runs-on: [self-hosted, linux, x64, gpu]`. Self hosted runner on linux os with x64 architecture
+
+
+# Github Hosted Runners
+
+- Runners are Machines that execute github actions .
+- Github Hosted Runners are virtual machines hosted by github
+- Machines with more core and gpu processor use larger runner
+- Github images have the list of preinstalled tools.
+- Included Software link in logs will describe the preinstalled tools on the runner that ran the workflow.
+- Ubuntu and windows machine are hosted in azure. macos is hosted in github macos cloud.
+- `GITHUB_WORKSPACE` Actions and shell commands execute in this directory
+- Some environment variables set by github by default
+
+
+# Self hosted runner
+
+- `runs-on:
+      group: ubuntu-runners
+      labels: ubuntu-20.04-16core`
+- in this runner group check for runner image with this label . once it is available the job will run
+
+# Container 
+- You can make your tasks run inside container using container keyword
+- `container: node:18` Image used in container.
+- Container property must be used at job level
+- Container property have refernce to image taht to be used in container
+
+
+# Steps
+
+- Steps run sequentially by default. Cannot change this behavior
+- Step have name, conditional expressions and runs parameter
+- Conditional expression helps in authoring when the step should execute when it should not.
+- 
