@@ -1,5 +1,7 @@
 name: Triggers Details
 
+run-name: Triggers Details ${{ github.run_number }}
+
 on:
 
   # Manual run of workflow
@@ -25,20 +27,31 @@ on:
   # schedule: #scheduled to run every friday in january
   # minute hour day month day_of_week
   # - cron: '0 0 * JAN FRI' 
+
+
+  # push event runs on push to the repository
+  # branches: can be used to include or exclude branches
+  # to exclude branches using branches there is should atleast be one include branch beanch to specify exclude branch using branches. If purely exclude brnach use branches-ignore instead of branches
+  # branches-ignore: can be used to exclude branches
+  # branches-ignore: cannot be used with branches
+  # paths: can be used to include or exclude files or folders
+  # paths-ignore: cannot be used with paths similar to branches and branches-ignore
+  # if both branches and paths are specified, the workflow will only run if both the branch and the path match the filter. If either the branch or the path does not match, the workflow will not run.
   push:
-    branches: #can be used to include or exclude branches
+    branches:
       - main #include main branch
       - feature/*  #include feature branches
-      - '!releases/**' #exclude releases branches . there is should atleast be one include branch beanch to specify exclude branch using branches. If purely exclude brnach use branches-ignore instead 
-    #branches-ignore: #branches-ignore cannot be used with branches
+      - '!releases/**' 
+    #branches-ignore: 
       #- 'releases/**' #exclude releases branches
     paths: #can be used to include or exclude files or folders. similar to branches there should be atleast one include path to specify exclude path with !.
       - 'src/**' #include src folder
       - '!src/ignore/**' #exclude src/ignore folder
-    #paths-ignore: #paths-ignore cannot be used with paths
+    #paths-ignore:
       #- 'src/ignore/**' #exclude src/ignore folder
-    #NOTES: Of for a push event, if both branches and paths are specified, the workflow will only run if both the branch and the path match the filter. If either the branch or the path does not match, the workflow will not run.
-  pull_request: #runs on pull request can use branches, branches-ignore, paths, paths-ignore similar to on push event
+  
+  #runs on pull request can use branches, branches-ignore, paths, paths-ignore similar to on push event
+  pull_request: 
     types: [opened, closed]
 
 jobs:
@@ -54,5 +67,5 @@ jobs:
               echo "Bye  ${{ github.event.inputs.message }} "
           fi
         else
-         echo "Hello "
+         echo "Hello triggered by ${{ github.event_name }}"
         fi
