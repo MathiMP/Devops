@@ -1,0 +1,25 @@
+name: Work Flow to trigger on repo dispatch
+
+on:
+ # Trigger the workflow on repository_dispatch event
+ # This event is triggered by the GitHub API
+ # Can have more than one event type. Base on even type at the time of trigger can run the workflow
+ # Trigger only when in default branch
+  repository_dispatch:
+    types: [event1 , event2]
+
+
+jobs:
+    RepoDispatchJob:
+        name: Repo Dispatch Event Job
+        runs-on: ubuntu-latest
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        steps:
+         - name: First Event
+           if: ${{ github.event == 'event1' }}
+           run: echo "Event 1 Triggered"
+         - name: Second Event
+           env:
+             Message: ${{ github.event.client_payload.message }}
+           if: ${{ github.event == 'event2' }}
+           run: echo "Event 2 Triggered with message ${{ env.Message }}"

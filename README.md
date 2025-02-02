@@ -31,6 +31,7 @@ When the workflow runs depends on trigger
   - `workflow_call`
 - [Few Most used Triggers Explained In Details](.github/workflows/triggers_in_detail.yml)
 - To trigger from cli: `gh workflow run workflowfilename.yml`
+- [Repository Dispatch](./github/workflows/trigger_repo_dispatch.yaml)
 
 
 # Jobs
@@ -63,11 +64,12 @@ When the workflow runs depends on trigger
 
 
 # Self hosted runner
-
-- `runs-on:
+- Self hosted are images hosted by users
+- You can also use images from a group
+  example: `runs-on:
       group: ubuntu-runners
       labels: ubuntu-20.04-16core`
-- in this runner group check for runner image with this label . once it is available the job will run
+- In the above example github action will search for the runner group `ubuntu-runners` and further check for specific runner images with `ubuntu-20.04-16core` label . Once it is available the job will run
 
 # Container 
 - You can make your tasks run inside container using container keyword
@@ -81,4 +83,3 @@ When the workflow runs depends on trigger
 - Steps run sequentially by default. Cannot change this behavior
 - Step have name, conditional expressions and runs parameter
 - Conditional expression helps in authoring when the step should execute when it should not.
-- 
