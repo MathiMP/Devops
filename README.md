@@ -9,10 +9,10 @@ The location of your workflow files also matters. For example some triggers dema
 
 Elements in Workflow File:
 
-| Element | Description | Required | Example |
+| Element | Description | Required | Additional Details |
 |---------|-------------| ------| -----|
-| `name`  | The name of the workflow. This is displayed in the GitHub Actions UI. | No | `name: My WorkFlow`|
-| `runs-name`  | The name for workflow runs generated from the workflow | No | `run-name: Deploy by @${{ github.actor }}`|
-| `on`    | The events that trigger the workflow. Could be vents from within a repo. From outside a repo,. Manual and sceduled events| Yes |
-| `jobs`  | A map of jobs that will be executed as part of the workflow. Each job runs in a fresh instance of the virtual environment. |
-| `steps` | A list of steps to be executed as part of a job. Each step can run a script or an action. |
+| `name`  | The name of the workflow. This is displayed in the GitHub Actions UI. | No | If no name is given from actions tab you can see the filepath of your workflow file|
+| `run-name`  | The name for workflow runs generated from the workflow | No | If not specified then it is set to event specific information of that workflow. example push event will display the commit message as run name|
+| `on`    | The events that trigger the workflow. | Yes | Manual trigger,Scheduled Trigger,Events within a repo,Events from outside a repo
+| `jobs`  |Jobs to run on a workflow. |Yes| Name of job, Detail of where it shoudl run, steps inside the job. By default runs as parallel
+| `steps` | A list of steps to be executed as part of a job. Each step can run a script or an action. |Yes|To define actions that are to be executed. runs in sequence by default.
