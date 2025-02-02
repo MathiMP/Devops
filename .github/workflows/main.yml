@@ -1,4 +1,3 @@
-name: My WorkFlow
 on:
  workflow_dispatch: #Manual trigger
 
