@@ -16,3 +16,17 @@ Elements in Workflow File:
 | `on`    | The events that trigger the workflow. | Yes | Manual trigger,Scheduled Trigger,Events within a repo,Events from outside a repo
 | `jobs`  |Jobs to run on a workflow. |Yes| Name of job, Detail of where it shoudl run, steps inside the job. By default runs as parallel
 | `steps` | A list of steps to be executed as part of a job. Each step can run a script or an action. |Yes|To define actions that are to be executed. runs in sequence by default.
+
+# Triggers
+
+When the workflow runs depends on trigger
+- Defined using `on: `
+- You can have single or multiple triggers in a workflow file.
+- Not all events can be used as a trigger.
+- Some Events only trigger a workflow run if the workflow file exists on the default branch.
+ ex: workflow_dispatch or scheduled
+- Only few events supports giving inputs to Github Actions
+  - `workflow-dispatch`
+  - `repository_dispatch`
+  - `workflow_call`
+- [Few Most used Triggers Explained In Details](.github/workflows/triggers_in_detail.yml)

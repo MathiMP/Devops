@@ -1,0 +1,58 @@
+name: Triggers Details
+
+on:
+
+  # Manual run of workflow
+  # Will be triggered only when the file is in default branch
+  # Supports giving inputs to the workflow
+  # Can be triggered from UI , CLI or API
+  workflow_dispatch: 
+    inputs:
+      taskName:
+        description: 'Task to do:'
+        required: true
+        default: 'Hello'
+        type: choice
+        options:
+          - Hello
+          - Bye
+      message:
+        description: 'Message to include in the deployment'
+        required: true
+        default: 'Mathi'
+        type: string
+
+  # schedule: #scheduled to run every friday in january
+  # minute hour day month day_of_week
+  # - cron: '0 0 * JAN FRI' 
+  push:
+    branches: #can be used to include or exclude branches
+      - main #include main branch
+      - feature/*  #include feature branches
+      - '!releases/**' #exclude releases branches . there is should atleast be one include branch beanch to specify exclude branch using branches. If purely exclude brnach use branches-ignore instead 
+    #branches-ignore: #branches-ignore cannot be used with branches
+      #- 'releases/**' #exclude releases branches
+    paths: #can be used to include or exclude files or folders. similar to branches there should be atleast one include path to specify exclude path with !.
+      - 'src/**' #include src folder
+      - '!src/ignore/**' #exclude src/ignore folder
+    #paths-ignore: #paths-ignore cannot be used with paths
+      #- 'src/ignore/**' #exclude src/ignore folder
+    #NOTES: Of for a push event, if both branches and paths are specified, the workflow will only run if both the branch and the path match the filter. If either the branch or the path does not match, the workflow will not run.
+  pull_request: #runs on pull request can use branches, branches-ignore, paths, paths-ignore similar to on push event
+    types: [opened, closed]
+
+jobs:
+  TestJob:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test Step Manual and other triggers
+      run: |
+       if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+          if [ ${{ github.event.inputs.taskName }} == 'Hello' ]; then
+            echo "Hello ${{ github.event.inputs.message }}"
+          else
+              echo "Bye  ${{ github.event.inputs.message }} "
+          fi
+        else
+         echo "Hello "
+        fi
