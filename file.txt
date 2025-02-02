@@ -1,1 +1,2 @@
 File that gets appendedSome changes
+Some changes
