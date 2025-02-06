@@ -2,9 +2,10 @@ name: Work Flow to trigger on repo dispatch
 
 on:
  # Trigger the workflow on repository_dispatch event
- # This event is triggered by the GitHub API
- # Can have more than one event type. Base on even type at the time of trigger can run the workflow
+ # This event is triggered by the GitHub API PST request to repos/{owner}/{repo}/dispatches
+ # Can have more than one event type. Base on even type at the time of trigger can choose steps to run in the workflow
  # Trigger only when in default branch
+ # You need to generate token with repo scope and content write access to trigger this event
   repository_dispatch:
     types: [event1 , event2]
 
