@@ -59,8 +59,29 @@ When the workflow runs depends on trigger
 - Github images have the list of preinstalled tools.
 - Included Software link in logs will describe the preinstalled tools on the runner that ran the workflow.
 - Ubuntu and windows machine are hosted in azure. macos is hosted in github macos cloud.
-- `GITHUB_WORKSPACE` Actions and shell commands execute in this directory
 - Some environment variables set by github by default
+- Runner images repo: https://github.com/actions/runner-images 
+- In Runner images if you want to run commands with higher administrative privileges you can use sudo command passwordless
+- Github standard host runners have a range of IP address and it is updated once a week
+- GitHub executes actions and shell commands in specific directories on the virtual machine
+- `GITHUB_WORKSPACE` Environment variable that holds the value of directory in which Actions and shell commands are executed
+- You can customise the runner to install any required tools that you need.
+
+# Github Hosted Larger Runners
+
+- Github enterprise plan can choose a VM that have more resources than github standard runners : Larger runners
+  - They have more RAM / CPU / Disk space 
+  - Static IP (If runners are unused for more than 30 days, their IP address ranges are automatically removed and cannot be recovered.)
+  - Azure private networking
+  - Group Runners
+  - Autoscaling to support concurrent workflows
+  - GPU-powered and ARM-powered runners
+- Only Larger runners can be assigned to runner groups
+- Runner groups: Group a set of runners and create a security boundary around them.
+- You can allow certain org or repositories to access these runner groups.
+- In workflow runs-on: Refers to runner group name.
+- Runner group verifies if your repo have access to this runner group 
+- If you have access runner-group will allow available instance of runner in the runner group to run your workflow
 
 
 # Self hosted runner
