@@ -29,9 +29,9 @@ jobs:
       - name: Github Context Testing env 
         env:
          USERMESSAGE: "Hello Welcome"
-        run:  echo Path to env ${{github.env}} and ${{env.USERMESSAGE}}" 
+        run:  echo "Path to env ${{github.env}} and ${{env.USERMESSAGE}}" 
       - name: Context Testing env Variable defined in Job
-        run:  echo Path to env ${{github.env}} and $HOME"  # Uses env varaible defined in Job
+        run:  echo "Path to env ${{github.env}} and $HOME"  # Uses env varaible defined in Job
       - name: Print all environment variables
         run: printenv
       - name: Read Context Variable from env variable
