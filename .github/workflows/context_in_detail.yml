@@ -25,7 +25,7 @@ jobs:
         run: |
              echo "Github Actor ${{github.actor}}"
              echo "Githubapi ${{github.api_url}} "
-             echo Path to env ${{github.env}} and ${{env.USERMESSAGE}}" 
+             echo Path ${{env.USERMESSAGE}}" 
       - name: Github Context Testing env 
         env:
          USERMESSAGE: "Hello Welcome"
