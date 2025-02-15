@@ -1,0 +1,92 @@
+name: Context and Expressions
+
+on:
+  workflow_dispatch:
+   inputs:
+      input1:
+        required: true
+        type: string
+env:
+   USERMESSAGE: "Hello A job Environment Variable"
+   VarContext : ${{ vars.REPO_CONTEXT_VAR }}
+
+jobs:
+  ContextTesting:
+    # Github context is used . Job that runs only on main branch
+    # Availability of each context is different.
+    if: ${{ github.ref == 'refs/heads/main' }} 
+    runs-on: ubuntu-latest
+    outputs: # Define the output parameter only at job level
+      out1: steps.TestJobContext.outputs.FirstStepOutput
+    steps:        
+      - name: Github Context Testing
+        env:
+         USERMESSAGE: "Hello Greetings"
+        run: |
+             echo "Github Actor ${{github.actor}}"
+             echo "Githubapi ${{github.api_url}} "
+             echo Path to env ${{github.env}} and ${{env.USERMESSAGE}}" 
+      - name: Github Context Testing env 
+        env:
+         USERMESSAGE: "Hello Welcome"
+        run:  echo Path to env ${{github.env}} and ${{env.USERMESSAGE}}" 
+      - name: Context Testing env Variable defined in Job
+        run:  echo Path to env ${{github.env}} and $HOME"  # Uses env varaible defined in Job
+      - name: Print all environment variables
+        run: printenv
+      - name: Read Context Variable from env variable
+        run: echo "VAR Context ${{env.VarContext}}"
+      - name: Read Context Variable Directly
+        run: echo "VAR Context ${{vars.REPO_CONTEXT_VAR}}"
+      - id: TestJobContext
+        name: Use Job Context
+        if: ${{ job.status == 'success'}}
+        run: |
+         echo "Job Context ${{ job.status }}" 
+         echo "FirstStepOutput=ThisISOutput" >> $GITHUB_OUTPUT
+      - name: Use Step Context
+        if: ${{ steps.TestJobContext.outcome == 'success'}}
+        run: echo "Step Context ${{ steps.TestJobContext.conclusion }}"
+
+  TestJobContext:
+      runs-on: ubuntu-latest
+      needs: ContextTesting
+      if: ${{ needs.ContextTesting.result == 'success' }}
+      steps:
+        - name: Test Job Context
+          run: |
+            echo "Github Actor ${{github.actor}}"
+            echo "Githubapi ${{github.api_url}} "
+            echo "Github output ${{needs.ContextTesting.outputs.out1}}"
+        - name: Write Logs to runner using Runner context
+          run: |
+              mkdir ${{ runner.temp }}/LogFolder
+              echo "Logs from building" > ${{ runner.temp }}/LogFolder/Test.logs
+              exit 1
+        - name: Upload logs on fail
+          uses: actions/upload-artifact@v4
+          with:
+            name: Upload logs
+            path: ${{ runner.temp }}/LogFolder
+        - name: Use github token to create issue
+          run: |
+            gh issue --repo ${{ github.repository }} \
+            create --title "Issue title" --body "Issue body"
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
+  MatrixAndStategy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        inAr1: [1, 2]
+        inAr2: [3, 4]
+    steps:
+      - name: Matrix and Strategy
+        run: |
+          echo "Matrix and Strategy ${{strategy.job-index}} matrix1 ${{ matrix.inAr1 }} matrix2 ${{ matrix.inAr2 }}"
+          echo "Strategy ${{strategy.fail-fast}}  ${{strategy.max-parallel}}"
+# user that triggered the workflow
+# env: Path on the runner to the file that sets environment variables from workflow commands. 
+# This file is unique to the current step and is a different file for each step in a job
+# Runner env variables not available in env context example:  $HOME
