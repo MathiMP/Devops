@@ -14,7 +14,6 @@ Used to
 - Context are objects with properties
     - github context :  
            information about the workflow run and the event that triggered the run. 
-    - matrix context
     - env context :
           Environment variable set in workflow file is accessible in this env context.
           Environment variable that are part of runner's environment is not included in env context  
