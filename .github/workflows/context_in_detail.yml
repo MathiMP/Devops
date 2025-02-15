@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
    inputs:
       input1:
-        required: true
+        required: false
         type: string
 env:
    USERMESSAGE: "Hello A job Environment Variable"
@@ -25,7 +25,7 @@ jobs:
         run: |
              echo "Github Actor ${{github.actor}}"
              echo "Githubapi ${{github.api_url}} "
-             echo Path ${{env.USERMESSAGE}}" 
+             echo "Path ${{env.USERMESSAGE}} env ${{github.env}}" 
       - name: Github Context Testing env 
         env:
          USERMESSAGE: "Hello Welcome"
@@ -75,7 +75,7 @@ jobs:
           env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
-  MatrixAndStategy:
+  MatrixAndStrategy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
