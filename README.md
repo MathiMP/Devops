@@ -96,11 +96,10 @@ When the workflow runs depends on trigger
 - You can make your tasks run inside container using container keyword
 - `container: node:18` Image used in container.
 - Container property must be used at job level
-- Container property have refernce to image taht to be used in container
+- Container property have reference to image that to be used in container
 
 
 # Steps
-
 - Steps run sequentially by default. Cannot change this behavior
 - Step have name, conditional expressions and runs parameter
 - Conditional expression helps in authoring when the step should execute when it should not.
